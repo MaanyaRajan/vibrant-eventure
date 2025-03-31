@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,13 +6,6 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
-
-// Add Three.js and related dependencies
-<lov-add-dependency>three@^0.158.0</lov-add-dependency>
-<lov-add-dependency>@react-three/fiber@^8.15.11</lov-add-dependency>
-<lov-add-dependency>@react-three/drei@^9.88.17</lov-add-dependency>
-
-// Import Three.js components
 import { Canvas } from "@react-three/fiber";
 import { PresentationControls, Stage, OrbitControls } from "@react-three/drei";
 
@@ -218,26 +210,22 @@ const eventThemes: Record<string, Theme[]> = {
   ],
 };
 
-// Simple 3D model component for theme visualization
 const ThemeModel = ({ colors }: { colors: string[] }) => {
   return (
     <>
       <ambientLight intensity={0.5} />
       <pointLight position={[10, 10, 10]} intensity={1} />
       <group position={[0, 0, 0]}>
-        {/* Central platform */}
         <mesh position={[0, -0.5, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <cylinderGeometry args={[2, 2, 0.1, 32]} />
           <meshStandardMaterial color={colors[0]} />
         </mesh>
 
-        {/* Center column */}
         <mesh position={[0, 0.5, 0]}>
           <cylinderGeometry args={[0.3, 0.3, 2, 32]} />
           <meshStandardMaterial color={colors[1]} />
         </mesh>
 
-        {/* Decorative elements */}
         {colors.slice(2).map((color, i) => (
           <group key={i} rotation={[0, (Math.PI * 2 * i) / 3, 0]}>
             <mesh position={[0.8, 0.3, 0]}>
@@ -251,7 +239,6 @@ const ThemeModel = ({ colors }: { colors: string[] }) => {
           </group>
         ))}
 
-        {/* Top decorative element */}
         <mesh position={[0, 1.6, 0]}>
           <sphereGeometry args={[0.4, 32, 32]} />
           <meshStandardMaterial color={colors[4]} />
@@ -317,16 +304,16 @@ const Themes = () => {
           </div>
 
           <div className="flex justify-center gap-4 mb-8">
-            <Link to="/events/wedding" className={`px-4 py-2 rounded-full ${eventType === "wedding" ? "bg-event-wedding text-white" : "bg-gray-100"}`}>
+            <Link to="/themes/wedding" className={`px-4 py-2 rounded-full ${eventType === "wedding" ? "bg-event-wedding text-white" : "bg-gray-100"}`}>
               Weddings
             </Link>
-            <Link to="/events/birthday" className={`px-4 py-2 rounded-full ${eventType === "birthday" ? "bg-event-birthday text-white" : "bg-gray-100"}`}>
+            <Link to="/themes/birthday" className={`px-4 py-2 rounded-full ${eventType === "birthday" ? "bg-event-birthday text-white" : "bg-gray-100"}`}>
               Birthdays
             </Link>
-            <Link to="/events/corporate" className={`px-4 py-2 rounded-full ${eventType === "corporate" ? "bg-event-corporate text-white" : "bg-gray-100"}`}>
+            <Link to="/themes/corporate" className={`px-4 py-2 rounded-full ${eventType === "corporate" ? "bg-event-corporate text-white" : "bg-gray-100"}`}>
               Corporate
             </Link>
-            <Link to="/events/anniversary" className={`px-4 py-2 rounded-full ${eventType === "anniversary" ? "bg-event-anniversary text-white" : "bg-gray-100"}`}>
+            <Link to="/themes/anniversary" className={`px-4 py-2 rounded-full ${eventType === "anniversary" ? "bg-event-anniversary text-white" : "bg-gray-100"}`}>
               Anniversaries
             </Link>
           </div>
@@ -337,7 +324,6 @@ const Themes = () => {
         <div className="container mx-auto px-4">
           {themes.length > 0 && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-              {/* 3D Theme Visualization */}
               <div className="h-[500px] bg-gray-50 rounded-xl overflow-hidden">
                 <Canvas camera={{ position: [0, 2, 5], fov: 40 }}>
                   <OrbitControls enableZoom={false} />
@@ -354,7 +340,6 @@ const Themes = () => {
                 </Canvas>
               </div>
 
-              {/* Theme Details */}
               <div>
                 <div className="mb-6 flex justify-between items-center">
                   <button
@@ -423,7 +408,6 @@ const Themes = () => {
         </div>
       </section>
 
-      {/* Theme Selection Thumbnails */}
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-8 font-display">All {getEventTitle()} Themes</h2>
@@ -454,7 +438,6 @@ const Themes = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-16 bg-primary text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-display">
