@@ -1,345 +1,323 @@
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, PartyPopper, Briefcase, Heart, Users, Utensils, Car, Music } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Calendar, Gift, Users, UserPlus, Star } from "lucide-react";
+import { Canvas } from "@react-three/fiber";
+import { useGLTF, OrbitControls, Sparkles, Float } from "@react-three/drei";
 
-// Add the framer-motion dependency
-<lov-add-dependency>framer-motion@^11.1.0</lov-add-dependency>
+const GoldSparkle = () => {
+  return (
+    <Sparkles 
+      count={50}
+      scale={10}
+      size={4}
+      speed={0.3}
+      color="#FFD700"
+    />
+  );
+};
 
 const Home = () => {
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  // Parallax effect for hero section
-  useEffect(() => {
-    const handleScroll = () => {
-      if (heroRef.current) {
-        const scrollPosition = window.scrollY;
-        heroRef.current.style.transform = `translateY(${scrollPosition * 0.4}px)`;
-        heroRef.current.style.opacity = `${1 - scrollPosition / 700}`;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Auto rotate testimonials
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  
   const eventTypes = [
     {
-      title: "Weddings",
-      icon: <Heart className="h-8 w-8 text-event-wedding" />,
-      description: "Make your special day unforgettable with our premium wedding planning services.",
-      color: "bg-event-wedding/10",
+      name: "Weddings",
+      icon: <Calendar className="h-10 w-10 text-amber-400" />,
+      color: "from-amber-400/20 to-amber-500/20",
       link: "/events/wedding",
-      image: "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
+      description: "Elegant ceremonies and receptions for your perfect day"
     },
     {
-      title: "Birthdays",
-      icon: <PartyPopper className="h-8 w-8 text-event-birthday" />,
-      description: "Celebrate another year with a party that will be remembered for years to come.",
-      color: "bg-event-birthday/10",
+      name: "Birthdays",
+      icon: <Gift className="h-10 w-10 text-amber-400" />,
+      color: "from-amber-400/20 to-amber-500/20",
       link: "/events/birthday",
-      image: "https://images.unsplash.com/photo-1532117892279-e4a9f4b50826?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
+      description: "Memorable celebrations for all ages and preferences"
     },
     {
-      title: "Corporate",
-      icon: <Briefcase className="h-8 w-8 text-event-corporate" />,
-      description: "Impress clients and motivate teams with our professional corporate event solutions.",
-      color: "bg-event-corporate/10",
+      name: "Corporate",
+      icon: <Users className="h-10 w-10 text-amber-400" />,
+      color: "from-amber-400/20 to-amber-500/20",
       link: "/events/corporate",
-      image: "https://images.unsplash.com/photo-1540317580384-e5d43867caa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
+      description: "Professional events from meetings to galas and conferences"
     },
     {
-      title: "Anniversaries",
-      icon: <Calendar className="h-8 w-8 text-event-anniversary" />,
-      description: "Commemorate your journey together with an anniversary celebration that honors your love.",
-      color: "bg-event-anniversary/10",
+      name: "Anniversaries",
+      icon: <Star className="h-10 w-10 text-amber-400" />,
+      color: "from-amber-400/20 to-amber-500/20",
       link: "/events/anniversary",
-      image: "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
+      description: "Special milestone celebrations to honor your journey"
     },
   ];
-
-  const services = [
-    { 
-      title: "Event Decoration", 
-      icon: <Users className="h-6 w-6" />,
-      description: "Transform any venue with our stunning decoration themes and custom designs." 
-    },
-    { 
-      title: "Catering & Food", 
-      icon: <Utensils className="h-6 w-6" />,
-      description: "Delight your guests with gourmet menus crafted by our expert culinary team." 
-    },
-    { 
-      title: "Transportation", 
-      icon: <Car className="h-6 w-6" />,
-      description: "Luxury vehicles and reliable transportation solutions for you and your guests." 
-    },
-    { 
-      title: "Entertainment", 
-      icon: <Music className="h-6 w-6" />,
-      description: "Live bands, DJs, performers, and more to keep your event lively and memorable." 
-    },
-  ];
-
+  
   const testimonials = [
     {
-      quote: "Eventure transformed our wedding day into a fairy tale. Every detail was perfect!",
-      author: "Sarah & David",
+      quote: "Majestic Moments transformed our wedding into an absolute dream. Every detail was perfect!",
+      author: "Sarah & Michael",
       event: "Wedding",
-      image: "https://images.unsplash.com/photo-1523996507021-160340de0f5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
+      rating: 5
     },
     {
-      quote: "Our corporate retreat was a huge success thanks to the Eventure team's professionalism.",
-      author: "Michael Johnson",
-      event: "Corporate Retreat",
-      image: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
+      quote: "The best birthday party my daughter has ever had. The decorations were magical!",
+      author: "Jennifer T.",
+      event: "Birthday",
+      rating: 5
     },
     {
-      quote: "My daughter's sweet 16 was beyond our expectations. The themes were amazing!",
-      author: "Jennifer Lewis",
-      event: "Birthday Party",
-      image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80",
-    },
+      quote: "Our corporate gala was executed flawlessly. Highly recommend their services.",
+      author: "Robert L.",
+      event: "Corporate Event",
+      rating: 5
+    }
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navigation />
-      
+    <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center overflow-hidden">
-        <div 
-          className="absolute inset-0 z-0 bg-[url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80')] bg-cover bg-center"
-          style={{ filter: 'brightness(0.7)' }}
-        ></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10"></div>
+      <div className="relative h-screen flex flex-col">
+        <Navigation />
         
-        <div className="container mx-auto px-4 z-20" ref={heroRef}>
-          <div className="max-w-3xl">
+        <div className="relative flex-grow flex flex-col items-center justify-center overflow-hidden">
+          {/* Decorative top corner ornaments */}
+          <img 
+            src="/lovable-uploads/b1716c6b-58e9-4358-a615-f46bd7e4475b.png" 
+            alt="Majestic Moments" 
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-90"
+          />
+          
+          <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
             <motion.h1 
-              className="text-4xl md:text-6xl font-bold text-white mb-6 font-display"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              Creating Magical Moments for Every Occasion
-            </motion.h1>
-            <motion.p 
-              className="text-xl text-white/90 mb-8"
+              className="text-6xl md:text-7xl lg:text-8xl font-display font-bold mb-6 text-amber-400"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              From intimate gatherings to grand celebrations, we design and deliver 
-              unforgettable experiences tailored to your unique vision.
-            </motion.p>
-            <motion.div 
-              className="flex flex-wrap gap-4"
+              Majestic Moments
+            </motion.h1>
+            
+            <motion.p 
+              className="text-xl md:text-2xl italic mb-12 text-amber-200"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
+              Your Occasions, Our Commitments
+            </motion.p>
+            
+            <motion.div 
+              className="flex flex-wrap justify-center gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
               <Link to="/booking">
-                <Button size="lg" className="bg-primary hover:bg-primary/90">
-                  Book Your Event
+                <Button size="lg" className="bg-amber-500 hover:bg-amber-600 text-black font-medium px-8">
+                  Book an Event
                 </Button>
               </Link>
-              <Link to="/services">
-                <Button size="lg" variant="outline" className="bg-white/10 text-white border-white/20 hover:bg-white/20">
-                  Explore Services
+              <Link to="/themes">
+                <Button size="lg" variant="outline" className="border-amber-400 text-amber-400 hover:bg-amber-500/20">
+                  Explore Themes
                 </Button>
               </Link>
             </motion.div>
           </div>
+          
+          <div className="absolute bottom-10 left-0 right-0 flex justify-center">
+            <motion.div 
+              animate={{ y: [0, 10, 0] }} 
+              transition={{ repeat: Infinity, duration: 2 }}
+            >
+              <a href="#services" className="text-amber-400 hover:text-amber-300">
+                <div className="w-8 h-12 border-2 border-amber-400 rounded-full flex justify-center items-start p-1">
+                  <motion.div 
+                    className="w-1 h-2 bg-amber-400 rounded-full"
+                    animate={{ y: [0, 16, 0] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                  />
+                </div>
+              </a>
+            </motion.div>
+          </div>
         </div>
-      </section>
+      </div>
 
-      {/* Event Types Section */}
-      <section className="py-24 bg-gray-50">
+      {/* Services Section */}
+      <section id="services" className="py-20 bg-gradient-to-b from-black to-gray-900">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 font-display">
-              Specialized in All Types of Events
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Whatever the occasion, our experienced team is dedicated to creating a customized 
-              experience that exceeds your expectations.
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-display text-amber-400">Exceptional Event Services</h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              From intimate gatherings to grand celebrations, we create unforgettable experiences
             </p>
           </div>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {eventTypes.map((event, index) => (
               <motion.div
-                key={event.title}
-                className="event-card group"
+                key={event.name}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
+                whileHover={{ y: -10, transition: { duration: 0.2 } }}
               >
-                <img 
-                  src={event.image} 
-                  alt={event.title} 
-                  className="w-full h-[400px] object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="event-card-content">
-                  <div className={`${event.color} p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4`}>
-                    {event.icon}
+                <Link to={event.link} className="block">
+                  <div className={`bg-gradient-to-br ${event.color} backdrop-blur-sm border border-amber-500/20 rounded-xl p-8 h-full hover:border-amber-400/50 transition-all duration-300`}>
+                    <div className="mb-4">
+                      {event.icon}
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 text-amber-300">{event.name}</h3>
+                    <p className="text-gray-300">{event.description}</p>
                   </div>
-                  <h3 className="text-2xl font-bold mb-2 font-display">{event.title}</h3>
-                  <p className="text-white/80 mb-4">{event.description}</p>
-                  <Link to={event.link}>
-                    <Button variant="default" className="bg-white text-gray-900 hover:bg-white/90">
-                      Learn More
-                    </Button>
-                  </Link>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 font-display">
-              Comprehensive Event Services
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              From concept to execution, we provide everything you need for a seamless and 
-              spectacular event experience.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((service, index) => (
-              <motion.div 
-                key={service.title}
-                className="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition-shadow"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="bg-primary/10 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
-                  {service.icon}
-                </div>
-                <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-                <p className="text-gray-600 mb-4">{service.description}</p>
-                <Link to="/services" className="text-primary font-medium hover:underline">
-                  Learn more
                 </Link>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
-
-      {/* Testimonials Section */}
-      <section className="py-24 bg-gray-900 text-white">
-        <div className="container mx-auto px-4">
+      
+      {/* 3D Effects Section */}
+      <section className="py-20 bg-black relative overflow-hidden">
+        <div className="absolute inset-0">
+          <Canvas className="z-0">
+            <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
+            <GoldSparkle />
+          </Canvas>
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-display">What Our Clients Say</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Hear from those who have experienced the magic of our event planning services.
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-display text-amber-400">Magical Themes</h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Discover our collection of meticulously crafted themes for every occasion
             </p>
           </div>
-
-          <div className="relative h-[400px] md:h-[350px] overflow-hidden">
+          
+          <div className="flex justify-center mb-10">
+            <Link to="/themes">
+              <Button size="lg" className="bg-amber-400 text-black hover:bg-amber-500">
+                View All Themes
+              </Button>
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-gray-900 to-black backdrop-blur-sm border border-amber-500/20 p-8 rounded-xl hover:border-amber-400/50 transition-all duration-300"
+            >
+              <h3 className="text-2xl font-bold mb-4 text-amber-300">Wedding Themes</h3>
+              <p className="text-gray-300 mb-4">
+                From elegant classic to romantic rustic, we create the perfect atmosphere for your special day.
+              </p>
+              <Link to="/themes/wedding" className="text-amber-400 hover:text-amber-300 flex items-center">
+                Explore Wedding Themes
+              </Link>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-gray-900 to-black backdrop-blur-sm border border-amber-500/20 p-8 rounded-xl hover:border-amber-400/50 transition-all duration-300"
+            >
+              <h3 className="text-2xl font-bold mb-4 text-amber-300">Birthday Themes</h3>
+              <p className="text-gray-300 mb-4">
+                Vibrant celebrations for all ages with personalized decor and entertainment.
+              </p>
+              <Link to="/themes/birthday" className="text-amber-400 hover:text-amber-300 flex items-center">
+                Explore Birthday Themes
+              </Link>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-gray-900 to-black backdrop-blur-sm border border-amber-500/20 p-8 rounded-xl hover:border-amber-400/50 transition-all duration-300"
+            >
+              <h3 className="text-2xl font-bold mb-4 text-amber-300">Corporate Themes</h3>
+              <p className="text-gray-300 mb-4">
+                Professional, innovative designs for corporate events, galas, and conferences.
+              </p>
+              <Link to="/themes/corporate" className="text-amber-400 hover:text-amber-300 flex items-center">
+                Explore Corporate Themes
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Testimonials */}
+      <section className="py-20 bg-gradient-to-b from-gray-900 to-black">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-display text-amber-400">Client Testimonials</h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              See what our clients say about their experience
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
-                className={`absolute inset-0 flex flex-col md:flex-row items-center transition-opacity duration-1000 ${
-                  index === currentTestimonial ? "opacity-100 z-10" : "opacity-0 z-0"
-                }`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: index === currentTestimonial ? 1 : 0 }}
-                transition={{ duration: 0.8 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-black/50 backdrop-blur-sm border border-amber-500/20 p-8 rounded-xl"
               >
-                <div className="w-full md:w-1/2 p-6 md:p-8">
-                  <svg 
-                    className="w-12 h-12 text-primary/60 mb-6" 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5 3.871 3.871 0 01-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5 3.871 3.871 0 01-2.748-1.179z"/>
-                  </svg>
-                  <p className="text-xl md:text-2xl mb-6 leading-relaxed font-display italic">
-                    "{testimonial.quote}"
-                  </p>
-                  <div>
-                    <p className="font-bold text-lg">{testimonial.author}</p>
-                    <p className="text-gray-400">{testimonial.event}</p>
-                  </div>
+                <div className="flex mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-amber-400 fill-amber-400" />
+                  ))}
                 </div>
-                <div className="w-full md:w-1/2 h-full">
-                  <div className="h-full relative overflow-hidden rounded-xl md:rounded-r-2xl">
-                    <img 
-                      src={testimonial.image} 
-                      alt={testimonial.author} 
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
-                  </div>
+                <p className="text-gray-300 italic mb-6">"{testimonial.quote}"</p>
+                <div>
+                  <p className="font-bold text-amber-300">{testimonial.author}</p>
+                  <p className="text-gray-400 text-sm">{testimonial.event}</p>
                 </div>
               </motion.div>
             ))}
           </div>
-
-          <div className="flex justify-center mt-8">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentTestimonial(index)}
-                className={`h-3 w-3 mx-1 rounded-full transition-colors ${
-                  index === currentTestimonial ? "bg-primary" : "bg-gray-600"
-                }`}
-                aria-label={`Go to testimonial ${index + 1}`}
-              />
-            ))}
-          </div>
         </div>
       </section>
-
+      
       {/* CTA Section */}
-      <section className="py-20 bg-primary text-white">
+      <section className="py-20 bg-gradient-to-r from-amber-600 to-amber-400 text-black">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 font-display">Ready to Start Planning Your Event?</h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Let's create something extraordinary together. Our team is ready to bring your vision to life.
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 font-display">Ready to Create Your Majestic Moment?</h2>
+          <p className="text-xl mb-8 max-w-3xl mx-auto">
+            Let us transform your vision into an unforgettable experience. Book a consultation with our event planning experts today.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
+            <Link to="/register">
+              <Button size="lg" className="bg-black text-amber-400 hover:bg-gray-900">
+                Register Now
+              </Button>
+            </Link>
             <Link to="/booking">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90">
+              <Button size="lg" variant="outline" className="border-black text-black hover:bg-black/10">
                 Book a Consultation
               </Button>
             </Link>
-            <Link to="/contact">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                Contact Us
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
-
+      
       <Footer />
     </div>
   );

@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -289,42 +290,42 @@ const Themes = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-black text-white">
       <Navigation />
 
-      <section className="pt-24 pb-12 bg-gradient-to-b from-gray-50 to-white">
+      <section className="pt-24 pb-12 bg-gradient-to-b from-black to-gray-900">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-display">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-display text-amber-400">
               {getEventTitle()} Themes
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Explore our curated collection of themes to make your {eventType} event truly unique and memorable.
             </p>
           </div>
 
           <div className="flex justify-center gap-4 mb-8">
-            <Link to="/themes/wedding" className={`px-4 py-2 rounded-full ${eventType === "wedding" ? "bg-event-wedding text-white" : "bg-gray-100"}`}>
+            <Link to="/themes/wedding" className={`px-4 py-2 rounded-full ${eventType === "wedding" ? "bg-amber-400 text-black" : "bg-gray-800 text-amber-400 border border-amber-400"}`}>
               Weddings
             </Link>
-            <Link to="/themes/birthday" className={`px-4 py-2 rounded-full ${eventType === "birthday" ? "bg-event-birthday text-white" : "bg-gray-100"}`}>
+            <Link to="/themes/birthday" className={`px-4 py-2 rounded-full ${eventType === "birthday" ? "bg-amber-400 text-black" : "bg-gray-800 text-amber-400 border border-amber-400"}`}>
               Birthdays
             </Link>
-            <Link to="/themes/corporate" className={`px-4 py-2 rounded-full ${eventType === "corporate" ? "bg-event-corporate text-white" : "bg-gray-100"}`}>
+            <Link to="/themes/corporate" className={`px-4 py-2 rounded-full ${eventType === "corporate" ? "bg-amber-400 text-black" : "bg-gray-800 text-amber-400 border border-amber-400"}`}>
               Corporate
             </Link>
-            <Link to="/themes/anniversary" className={`px-4 py-2 rounded-full ${eventType === "anniversary" ? "bg-event-anniversary text-white" : "bg-gray-100"}`}>
+            <Link to="/themes/anniversary" className={`px-4 py-2 rounded-full ${eventType === "anniversary" ? "bg-amber-400 text-black" : "bg-gray-800 text-amber-400 border border-amber-400"}`}>
               Anniversaries
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="py-12">
+      <section className="py-12 bg-black">
         <div className="container mx-auto px-4">
           {themes.length > 0 && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-              <div className="h-[500px] bg-gray-50 rounded-xl overflow-hidden">
+              <div className="h-[500px] bg-gray-900 rounded-xl overflow-hidden border border-amber-500/30">
                 <Canvas camera={{ position: [0, 2, 5], fov: 40 }}>
                   <OrbitControls enableZoom={false} />
                   <PresentationControls
@@ -340,28 +341,28 @@ const Themes = () => {
                 </Canvas>
               </div>
 
-              <div>
+              <div className="bg-gray-900/50 p-8 rounded-xl border border-amber-500/30">
                 <div className="mb-6 flex justify-between items-center">
                   <button
                     onClick={prevTheme}
-                    className="p-2 rounded-full bg-gray-100 hover:bg-gray-200"
+                    className="p-2 rounded-full bg-gray-800 hover:bg-amber-400 hover:text-black transition-colors"
                     aria-label="Previous theme"
                   >
                     <ChevronLeft className="h-6 w-6" />
                   </button>
-                  <h2 className="text-3xl font-bold font-display">
+                  <h2 className="text-3xl font-bold font-display text-amber-400">
                     {themes[activeTheme].name}
                   </h2>
                   <button
                     onClick={nextTheme}
-                    className="p-2 rounded-full bg-gray-100 hover:bg-gray-200"
+                    className="p-2 rounded-full bg-gray-800 hover:bg-amber-400 hover:text-black transition-colors"
                     aria-label="Next theme"
                   >
                     <ChevronRight className="h-6 w-6" />
                   </button>
                 </div>
 
-                <p className="text-lg text-gray-700 mb-6">
+                <p className="text-lg text-gray-300 mb-6">
                   {themes[activeTheme].description}
                 </p>
 
@@ -369,7 +370,7 @@ const Themes = () => {
                   {themes[activeTheme].colors.map((color, index) => (
                     <div
                       key={index}
-                      className="w-10 h-10 rounded-full border border-gray-200"
+                      className="w-10 h-10 rounded-full border border-gray-700"
                       style={{ backgroundColor: color }}
                       title={`Theme color ${index + 1}`}
                     />
@@ -377,28 +378,28 @@ const Themes = () => {
                 </div>
 
                 <div className="mb-6">
-                  <h3 className="font-bold mb-3">Theme Features:</h3>
+                  <h3 className="font-bold mb-3 text-amber-300">Theme Features:</h3>
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {themes[activeTheme].features.map((feature, index) => (
                       <li key={index} className="flex items-center">
-                        <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                        <span>{feature}</span>
+                        <Check className="h-5 w-5 text-amber-400 mr-2 flex-shrink-0" />
+                        <span className="text-gray-300">{feature}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-gray-200 pt-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-amber-500/30 pt-6">
                   <div>
-                    <span className="block text-gray-500">Starting from</span>
-                    <span className="text-3xl font-bold">{themes[activeTheme].price}</span>
+                    <span className="block text-gray-400">Starting from</span>
+                    <span className="text-3xl font-bold text-amber-400">{themes[activeTheme].price}</span>
                   </div>
                   <div className="flex gap-3">
                     <Link to={`/booking?theme=${themes[activeTheme].id}`}>
-                      <Button>Book This Theme</Button>
+                      <Button className="bg-amber-400 text-black hover:bg-amber-500">Book This Theme</Button>
                     </Link>
                     <Link to="/contact">
-                      <Button variant="outline">Get Quote</Button>
+                      <Button variant="outline" className="border-amber-400 text-amber-400 hover:bg-amber-400/10">Get Quote</Button>
                     </Link>
                   </div>
                 </div>
@@ -408,17 +409,17 @@ const Themes = () => {
         </div>
       </section>
 
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-gray-900">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-8 font-display">All {getEventTitle()} Themes</h2>
+          <h2 className="text-2xl font-bold mb-8 font-display text-amber-400">All {getEventTitle()} Themes</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6" ref={sliderRef}>
             {themes.map((theme, index) => (
               <motion.div
                 key={theme.id}
-                className={`cursor-pointer rounded-xl overflow-hidden shadow ${
-                  activeTheme === index ? "ring-2 ring-primary ring-offset-2" : ""
+                className={`cursor-pointer rounded-xl overflow-hidden shadow-lg ${
+                  activeTheme === index ? "ring-2 ring-amber-400 ring-offset-2 ring-offset-gray-900" : ""
                 }`}
-                whileHover={{ y: -10 }}
+                whileHover={{ y: -10, boxShadow: "0 10px 25px -5px rgba(251, 191, 36, 0.3)" }}
                 onClick={() => scrollToTheme(index)}
               >
                 <div className="relative h-48">
@@ -427,9 +428,9 @@ const Themes = () => {
                     alt={theme.name}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="text-white font-bold">{theme.name}</h3>
+                    <h3 className="text-white font-bold text-amber-200">{theme.name}</h3>
                   </div>
                 </div>
               </motion.div>
@@ -438,23 +439,23 @@ const Themes = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-primary text-white">
+      <section className="py-16 bg-gradient-to-r from-amber-600 to-amber-400 text-black">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-display">
             Ready to Bring Your Dream {getEventTitle()} to Life?
           </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl mb-8 max-w-2xl mx-auto">
             Let our expert event designers help you create an unforgettable experience
             with your favorite theme.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link to="/booking">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90">
+              <Button size="lg" className="bg-black text-amber-400 hover:bg-gray-900">
                 Book a Consultation
               </Button>
             </Link>
             <Link to="/contact">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+              <Button size="lg" variant="outline" className="border-black text-black hover:bg-black/10">
                 Contact Us
               </Button>
             </Link>
