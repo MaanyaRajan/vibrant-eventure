@@ -42,7 +42,7 @@ const NotFound = () => {
       transition: { 
         duration: 1.5,
         repeat: Infinity,
-        repeatType: "reverse"
+        repeatType: "mirror"
       }
     }
   };
@@ -81,7 +81,7 @@ const NotFound = () => {
                   transition={{ 
                     duration: 10 + Math.random() * 20, 
                     repeat: Infinity,
-                    repeatType: "reverse"
+                    repeatType: "mirror"
                   }}
                 >
                   <Flower size={24} className="text-pink-200" />

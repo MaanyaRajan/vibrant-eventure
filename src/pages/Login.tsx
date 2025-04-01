@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Flower } from "lucide-react";
 import { motion } from "framer-motion";
 
 const Login = () => {
@@ -28,7 +28,7 @@ const Login = () => {
       if (email && password) {
         toast({
           title: "Login successful",
-          description: "Welcome back to Majestic Moments!",
+          description: "Welcome back to our floral event planning!",
         });
         navigate("/dashboard");
       } else {
@@ -47,7 +47,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-black">
+    <div className="min-h-screen flex bg-gradient-to-br from-white to-pink-50">
       {/* Left Side - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <motion.div 
@@ -57,16 +57,16 @@ const Login = () => {
           transition={{ duration: 0.5 }}
         >
           <Link to="/" className="inline-block mb-8">
-            <h3 className="text-2xl font-display font-bold text-amber-400">Majestic Moments</h3>
+            <h3 className="text-2xl font-display font-bold gradient-text">Blooming Events</h3>
           </Link>
           
-          <h1 className="text-3xl font-bold mb-2 font-display text-white">Welcome back</h1>
-          <p className="text-gray-400 mb-8">Please enter your details to sign in</p>
+          <h1 className="text-3xl font-bold mb-2 font-display text-gray-800">Welcome back</h1>
+          <p className="text-gray-600 mb-8">Please enter your details to sign in</p>
           
           <form onSubmit={handleSubmit}>
             <div className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-gray-300">Email</Label>
+                <Label htmlFor="email" className="text-gray-700">Email</Label>
                 <Input
                   id="email"
                   type="email"
@@ -74,14 +74,14 @@ const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500"
+                  className="border-pink-200 focus:border-pink-400"
                 />
               </div>
               
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <Label htmlFor="password" className="text-gray-300">Password</Label>
-                  <Link to="/forgot-password" className="text-sm text-amber-400 hover:underline">
+                  <Label htmlFor="password" className="text-gray-700">Password</Label>
+                  <Link to="/forgot-password" className="text-sm text-pink-500 hover:underline">
                     Forgot password?
                   </Link>
                 </div>
@@ -93,7 +93,7 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="pr-10 bg-gray-900 border-gray-700 text-white placeholder:text-gray-500"
+                    className="pr-10 border-pink-200 focus:border-pink-400"
                   />
                   <button
                     type="button"
@@ -114,20 +114,20 @@ const Login = () => {
                   id="remember-me" 
                   checked={rememberMe}
                   onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-                  className="border-gray-700 data-[state=checked]:bg-amber-400 data-[state=checked]:text-black"
+                  className="border-pink-300 data-[state=checked]:bg-pink-500 data-[state=checked]:border-pink-500"
                 />
-                <Label htmlFor="remember-me" className="text-sm cursor-pointer text-gray-300">
+                <Label htmlFor="remember-me" className="text-sm cursor-pointer text-gray-600">
                   Remember me for 30 days
                 </Label>
               </div>
               
-              <Button type="submit" className="w-full bg-amber-400 text-black hover:bg-amber-500" disabled={isLoading}>
+              <Button type="submit" className="w-full floral-button" disabled={isLoading}>
                 {isLoading ? "Signing in..." : "Sign in"}
               </Button>
               
-              <div className="text-center text-sm text-gray-400">
+              <div className="text-center text-sm text-gray-600">
                 Don't have an account?{" "}
-                <Link to="/register" className="text-amber-400 hover:underline font-medium">
+                <Link to="/register" className="text-pink-500 hover:underline font-medium">
                   Sign up
                 </Link>
               </div>
@@ -138,18 +138,51 @@ const Login = () => {
       
       {/* Right Side - Image */}
       <div className="hidden lg:block lg:w-1/2 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-400/40 to-amber-600/40 mix-blend-multiply"></div>
+        {/* Decorative flower elements */}
+        <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
+          {[...Array(15)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute"
+              initial={{ 
+                x: `${Math.random() * 100}%`, 
+                y: `${Math.random() * 100}%`,
+                opacity: 0.3 + Math.random() * 0.4,
+                scale: 0.7 + Math.random() * 0.6
+              }}
+              animate={{ 
+                y: [
+                  `${Math.random() * 100}%`, 
+                  `${Math.random() * 100 - 10}%`, 
+                  `${Math.random() * 100}%`
+                ],
+              }}
+              transition={{ 
+                duration: 10 + Math.random() * 20, 
+                repeat: Infinity,
+                repeatType: "mirror"
+              }}
+            >
+              <Flower 
+                size={20 + Math.random() * 30} 
+                className="text-white/60 animate-flower-spin" 
+              />
+            </motion.div>
+          ))}
+        </div>
+        
+        <div className="absolute inset-0 bg-gradient-to-br from-pink-400/40 to-rose-400/40 mix-blend-multiply"></div>
         <img
           src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80"
           alt="Event setup"
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 flex items-center justify-center p-12">
-          <div className="max-w-lg text-white bg-black/40 backdrop-blur-sm p-8 rounded-2xl border border-amber-500/20">
-            <h2 className="text-3xl font-bold mb-4 font-display text-amber-400">Extraordinary Events Await</h2>
+          <div className="max-w-lg text-white bg-pink-400/20 backdrop-blur-sm p-8 rounded-2xl border border-white/30">
+            <h2 className="text-3xl font-bold mb-4 font-display">Beautiful Events Await</h2>
             <p className="text-white/90">
               Sign in to start planning your next unforgettable event. From elegant weddings to corporate galas, 
-              we have everything you need to create majestic moments that last a lifetime.
+              we have everything you need to create beautiful moments that last a lifetime.
             </p>
           </div>
         </div>
