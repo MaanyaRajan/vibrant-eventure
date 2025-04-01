@@ -16,16 +16,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 280 75% 60%;
+    --primary: 320 70% 60%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 42 100% 70%;
+    --secondary: 160 84% 80%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 24 94% 81%;
+    --accent: 24 94% 89%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -33,7 +33,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 280 75% 60%;
+    --ring: 320 70% 60%;
 
     --radius: 0.5rem;
 
@@ -57,10 +57,10 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 280 75% 60%;
+    --primary: 320 70% 60%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 42 100% 70%;
+    --secondary: 160 84% 70%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217.2 32.6% 17.5%;
@@ -74,7 +74,7 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 280 75% 60%;
+    --ring: 320 70% 60%;
     
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -103,7 +103,7 @@
 
 @layer components {
   .hero-gradient {
-    background: linear-gradient(90deg, hsla(277, 75%, 84%, 1) 0%, hsla(297, 50%, 51%, 1) 100%);
+    background: linear-gradient(90deg, hsla(320, 75%, 90%, 1) 0%, hsla(297, 50%, 51%, 1) 100%);
   }
   
   .event-card {
@@ -130,23 +130,27 @@
     @apply bg-white/10 backdrop-blur-md border border-white/20;
   }
   
-  /* New vibrant UI classes */
+  /* Floral UI classes */
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-pink-500 to-purple-600;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-rose-500 to-pink-600;
   }
   
-  .vibrant-card {
-    @apply bg-gradient-to-br from-gray-900 to-black border border-amber-500/30 shadow-lg shadow-amber-400/5 hover:shadow-amber-400/10 transition-all duration-300;
+  .floral-card {
+    @apply bg-gradient-to-br from-white to-pink-50 border border-pink-200/40 shadow-lg shadow-pink-400/5 hover:shadow-pink-400/10 transition-all duration-300;
   }
   
-  .vibrant-button {
-    @apply bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-black font-medium transition-all;
+  .floral-button {
+    @apply bg-gradient-to-r from-pink-400 to-rose-500 hover:from-pink-500 hover:to-rose-600 text-white font-medium transition-all;
   }
   
-  .vibrant-background {
+  .floral-background {
     background: radial-gradient(circle at top right, rgba(236, 72, 153, 0.08), transparent 250px),
-                radial-gradient(circle at bottom left, rgba(250, 204, 21, 0.08), transparent 250px),
-                linear-gradient(to bottom, #000000, #0f0f1a);
+                radial-gradient(circle at bottom left, rgba(244, 114, 182, 0.08), transparent 250px),
+                linear-gradient(to bottom, #ffffff, #fff5f8);
+  }
+  
+  .floral-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff80bf' fill-opacity='0.05'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 }
 
@@ -162,10 +166,10 @@
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
   }
   50% {
-    box-shadow: 0 0 30px rgba(251, 191, 36, 0.7);
+    box-shadow: 0 0 30px rgba(236, 72, 153, 0.7);
   }
 }
 
@@ -186,4 +190,8 @@
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   background-size: 200% 100%;
   animation: shimmer 3s infinite;
+}
+
+.floral-border {
+  border-image: linear-gradient(to right, #f9a8d4, #f472b6, #f9a8d4) 1;
 }

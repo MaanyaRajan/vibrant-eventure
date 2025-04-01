@@ -68,10 +68,20 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				event: {
-					wedding: '#9b87f5',
-					birthday: '#F97316',
-					corporate: '#0EA5E9',
-					anniversary: '#D946EF'
+					wedding: '#E68FBC',
+					birthday: '#F97EAD',
+					corporate: '#9DCAFF',
+					anniversary: '#EBA0FF'
+				},
+				floral: {
+					pink: "#F9A8D4",
+					rose: "#FB7185",
+					lilac: "#D8B4FE",
+					lavender: "#C4B5FD",
+					mint: "#A7F3D0",
+					sage: "#BBF7D0",
+					cream: "#FFF1F2",
+					blush: "#FECDD3"
 				}
 			},
 			borderRadius: {
@@ -134,6 +144,17 @@ export default {
 						opacity: "0.8",
 					},
 				},
+				"flower-spin": {
+					"0%, 100%": {
+						transform: "rotate(0deg)",
+					},
+					"25%": {
+						transform: "rotate(10deg)",
+					},
+					"75%": {
+						transform: "rotate(-10deg)",
+					}
+				}
 			},
 			animation: {
 				"accordion-down": "accordion-down 0.2s ease-out",
@@ -143,6 +164,10 @@ export default {
 				"scale-in": "scale-in 0.2s ease-out",
 				"float": "float 6s ease-in-out infinite",
 				"pulse-light": "pulse-light 3s ease-in-out infinite",
+				"flower-spin": "flower-spin 5s ease-in-out infinite",
+			},
+			backgroundImage: {
+				'floral-pattern': "url(\"data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fcb4d5' fill-opacity='0.2'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
 			},
 		},
 	},

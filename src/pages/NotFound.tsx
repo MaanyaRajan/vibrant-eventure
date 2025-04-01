@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
+import { Flower } from "lucide-react";
 
 const NotFound = () => {
   const location = useLocation();
@@ -32,8 +33,22 @@ const NotFound = () => {
     visible: { opacity: 1, y: 0 }
   };
 
+  const flowerVariants = {
+    hidden: { opacity: 0, rotate: 0, scale: 0 },
+    visible: { 
+      opacity: 1, 
+      rotate: [0, 15, 0, -15, 0], 
+      scale: 1,
+      transition: { 
+        duration: 1.5,
+        repeat: Infinity,
+        repeatType: "reverse"
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 via-purple-900 to-black text-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-pink-50 via-rose-50 to-white text-gray-800">
       <Navigation />
 
       <div className="flex-grow flex items-center justify-center py-20">
@@ -44,28 +59,33 @@ const NotFound = () => {
             animate="visible"
             className="relative z-10"
           >
-            {/* Background sparkles effect */}
-            <div className="absolute inset-0 -z-10">
+            {/* Background flower elements */}
+            <div className="absolute inset-0 -z-10 overflow-hidden">
               {[...Array(20)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="absolute h-2 w-2 rounded-full bg-amber-400"
+                  className="absolute"
                   initial={{ 
-                    x: Math.random() * 100 - 50 + "%", 
-                    y: Math.random() * 100 - 50 + "%",
-                    opacity: 0.2,
-                    scale: Math.random() * 0.5 + 0.5
+                    x: `${Math.random() * 100}%`, 
+                    y: `${Math.random() * 100}%`,
+                    opacity: 0.1 + Math.random() * 0.5,
+                    scale: 0.5 + Math.random() * 1
                   }}
                   animate={{ 
-                    opacity: [0.2, 0.8, 0.2], 
-                    scale: [Math.random() * 0.5 + 0.5, Math.random() * 1 + 1, Math.random() * 0.5 + 0.5]
+                    y: [
+                      `${Math.random() * 100}%`, 
+                      `${Math.random() * 100 - 10}%`, 
+                      `${Math.random() * 100}%`
+                    ],
                   }}
                   transition={{ 
-                    duration: Math.random() * 3 + 2, 
+                    duration: 10 + Math.random() * 20, 
                     repeat: Infinity,
-                    ease: "easeInOut"
+                    repeatType: "reverse"
                   }}
-                />
+                >
+                  <Flower size={24} className="text-pink-200" />
+                </motion.div>
               ))}
             </div>
             
@@ -74,12 +94,12 @@ const NotFound = () => {
               className="mb-6"
             >
               <motion.div
-                className="text-9xl font-bold bg-gradient-to-r from-amber-400 via-purple-500 to-pink-500 bg-clip-text text-transparent font-display inline-block"
+                className="text-9xl font-bold bg-gradient-to-r from-pink-400 via-rose-500 to-pink-600 bg-clip-text text-transparent font-display inline-block"
                 animate={{ 
                   textShadow: [
-                    "0 0 7px rgba(255,191,0,0.5)", 
-                    "0 0 10px rgba(255,191,0,0.8)", 
-                    "0 0 7px rgba(255,191,0,0.5)"
+                    "0 0 7px rgba(236,72,153,0.3)", 
+                    "0 0 10px rgba(236,72,153,0.5)", 
+                    "0 0 7px rgba(236,72,153,0.3)"
                   ] 
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
@@ -90,17 +110,17 @@ const NotFound = () => {
             
             <motion.h1 
               variants={itemVariants}
-              className="text-3xl font-bold mb-4 font-display bg-gradient-to-r from-amber-200 to-amber-400 bg-clip-text text-transparent"
+              className="text-3xl font-bold mb-4 font-display bg-gradient-to-r from-pink-400 to-rose-500 bg-clip-text text-transparent"
             >
               Page Not Found
             </motion.h1>
             
             <motion.p 
               variants={itemVariants}
-              className="text-lg text-gray-300 mb-8 max-w-lg mx-auto"
+              className="text-lg text-gray-600 mb-8 max-w-lg mx-auto"
             >
               Sorry, the page you're looking for doesn't exist or has been moved. 
-              Let's get you back on track to planning your perfect event.
+              Let's get you back on track to planning your perfect floral event.
             </motion.p>
             
             <motion.div 
@@ -108,16 +128,31 @@ const NotFound = () => {
               className="space-y-4"
             >
               <Link to="/">
-                <Button size="lg" className="mx-2 bg-gradient-to-r from-amber-400 to-amber-600 text-black hover:from-amber-500 hover:to-amber-700 shadow-lg shadow-amber-600/20">
+                <Button size="lg" className="mx-2 bg-gradient-to-r from-pink-400 to-rose-500 text-white hover:from-pink-500 hover:to-rose-600 shadow-lg shadow-pink-400/20">
                   Return to Home
                 </Button>
               </Link>
               
               <Link to="/booking">
-                <Button size="lg" variant="outline" className="mx-2 border-amber-400 text-amber-400 hover:bg-amber-400/10 shadow-lg shadow-amber-600/10">
+                <Button size="lg" variant="outline" className="mx-2 border-pink-400 text-pink-500 hover:bg-pink-50 shadow-lg shadow-pink-400/10">
                   Book an Event
                 </Button>
               </Link>
+            </motion.div>
+
+            {/* Decorative flowers */}
+            <motion.div 
+              className="absolute -bottom-16 -left-16 opacity-20 -z-10"
+              variants={flowerVariants}
+            >
+              <Flower size={150} className="text-pink-300" />
+            </motion.div>
+            
+            <motion.div 
+              className="absolute -top-16 -right-16 opacity-20 -z-10"
+              variants={flowerVariants}
+            >
+              <Flower size={150} className="text-rose-300" />
             </motion.div>
           </motion.div>
         </div>
