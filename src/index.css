@@ -19,7 +19,7 @@
     --primary: 320 70% 60%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 160 84% 80%;
+    --secondary: 260 84% 80%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
@@ -45,6 +45,12 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* New floral theme colors */
+    --floral-pink: 330 100% 90%;
+    --floral-lavender: 260 100% 90%;
+    --floral-sky-blue: 200 100% 90%;
+    --floral-mint: 160 100% 90%;
   }
 
   .dark {
@@ -60,7 +66,7 @@
     --primary: 320 70% 60%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 160 84% 70%;
+    --secondary: 260 84% 70%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217.2 32.6% 17.5%;
@@ -103,7 +109,7 @@
 
 @layer components {
   .hero-gradient {
-    background: linear-gradient(90deg, hsla(320, 75%, 90%, 1) 0%, hsla(297, 50%, 51%, 1) 100%);
+    background: linear-gradient(90deg, hsla(320, 75%, 90%, 1) 0%, hsla(260, 75%, 80%, 1) 100%);
   }
   
   .event-card {
@@ -130,9 +136,9 @@
     @apply bg-white/10 backdrop-blur-md border border-white/20;
   }
   
-  /* Floral UI classes */
+  /* Enhanced Floral UI classes */
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-rose-500 to-pink-600;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400;
   }
   
   .floral-card {
@@ -140,17 +146,46 @@
   }
   
   .floral-button {
-    @apply bg-gradient-to-r from-pink-400 to-rose-500 hover:from-pink-500 hover:to-rose-600 text-white font-medium transition-all shadow-md shadow-pink-300/20;
+    @apply bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 text-white font-medium transition-all shadow-md shadow-pink-300/20;
   }
   
   .floral-background {
     background: radial-gradient(circle at top right, rgba(236, 72, 153, 0.08), transparent 250px),
-                radial-gradient(circle at bottom left, rgba(244, 114, 182, 0.08), transparent 250px),
-                linear-gradient(to bottom, #ffffff, #fff5f8);
+                radial-gradient(circle at center left, rgba(167, 139, 250, 0.08), transparent 250px),
+                radial-gradient(circle at bottom center, rgba(147, 197, 253, 0.08), transparent 250px),
+                linear-gradient(to bottom, #ffffff, #fdf2f8);
   }
   
   .floral-pattern {
     background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff80bf' fill-opacity='0.05'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  
+  .lavender-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a78bfa' fill-opacity='0.05'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  
+  .sky-blue-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2393c5fd' fill-opacity='0.05'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  
+  .wedding-gradient {
+    background: linear-gradient(to right, #fdf2f8, #ede9fe);
+  }
+  
+  .birthday-gradient {
+    background: linear-gradient(to right, #ede9fe, #dbeafe);
+  }
+  
+  .corporate-gradient {
+    background: linear-gradient(to right, #dbeafe, #e0f2fe);
+  }
+  
+  .anniversary-gradient {
+    background: linear-gradient(to right, #e0f2fe, #f0fdf4);
+  }
+  
+  .dashboard-gradient {
+    background: linear-gradient(to bottom, #fdf2f8, #ede9fe);
   }
 }
 
@@ -193,5 +228,39 @@
 }
 
 .floral-border {
-  border-image: linear-gradient(to right, #f9a8d4, #f472b6, #f9a8d4) 1;
+  border-image: linear-gradient(to right, #f9a8d4, #a78bfa, #93c5fd) 1;
+}
+
+/* New animation for flower elements */
+@keyframes flower-spin {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  75% {
+    transform: rotate(-10deg);
+  }
+}
+
+.animate-flower-spin {
+  animation: flower-spin 5s ease-in-out infinite;
+}
+
+/* New theme-specific color gradients */
+.pink-lavender-gradient {
+  background: linear-gradient(90deg, #f9a8d4, #c4b5fd);
+}
+
+.lavender-blue-gradient {
+  background: linear-gradient(90deg, #c4b5fd, #93c5fd);
+}
+
+.blue-mint-gradient {
+  background: linear-gradient(90deg, #93c5fd, #a7f3d0);
+}
+
+.multi-floral-gradient {
+  background: linear-gradient(45deg, #f9a8d4, #c4b5fd, #93c5fd, #a7f3d0);
 }
