@@ -42,7 +42,7 @@ const NotFound = () => {
       transition: { 
         duration: 1.5,
         repeat: Infinity,
-        repeatType: "mirror" // Fixed: Using a valid repeatType value
+        repeatType: "mirror" 
       }
     }
   };

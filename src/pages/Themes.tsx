@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { ChevronLeft, ChevronRight, Check, Flower } from "lucide-react";
 import { Canvas } from "@react-three/fiber";
 import { PresentationControls, Stage, OrbitControls } from "@react-three/drei";
 
@@ -289,43 +289,145 @@ const Themes = () => {
     }
   };
 
+  const getThemeGradient = () => {
+    switch (eventType) {
+      case "wedding":
+        return "wedding-gradient";
+      case "birthday":
+        return "birthday-gradient";
+      case "corporate":
+        return "corporate-gradient";
+      case "anniversary":
+        return "anniversary-gradient";
+      default:
+        return "wedding-gradient";
+    }
+  };
+
+  const getThemePattern = () => {
+    switch (eventType) {
+      case "wedding":
+        return "floral-pattern";
+      case "birthday":
+        return "lavender-pattern";
+      case "corporate":
+        return "sky-blue-pattern";
+      case "anniversary":
+        return "floral-pattern";
+      default:
+        return "floral-pattern";
+    }
+  };
+
+  const getThemeColors = () => {
+    switch (eventType) {
+      case "wedding":
+        return {
+          primary: "text-floral-rose",
+          secondary: "text-floral-pink",
+          accent: "text-floral-lilac",
+          bg: "from-floral-cream to-white",
+          border: "border-floral-pink/30",
+          button: "bg-floral-rose hover:bg-floral-rose/90",
+          buttonText: "text-white",
+          outline: "border-floral-rose text-floral-rose hover:bg-floral-rose/10"
+        };
+      case "birthday":
+        return {
+          primary: "text-floral-lavender",
+          secondary: "text-floral-periwinkle",
+          accent: "text-floral-lilac",
+          bg: "from-white to-floral-lavender/10",
+          border: "border-floral-lavender/30",
+          button: "bg-floral-periwinkle hover:bg-floral-periwinkle/90",
+          buttonText: "text-white",
+          outline: "border-floral-periwinkle text-floral-periwinkle hover:bg-floral-periwinkle/10"
+        };
+      case "corporate":
+        return {
+          primary: "text-floral-skyblue",
+          secondary: "text-floral-lightblue",
+          accent: "text-floral-periwinkle",
+          bg: "from-white to-floral-skyblue/10",
+          border: "border-floral-lightblue/30",
+          button: "bg-floral-skyblue hover:bg-floral-skyblue/90",
+          buttonText: "text-white",
+          outline: "border-floral-skyblue text-floral-skyblue hover:bg-floral-skyblue/10"
+        };
+      case "anniversary":
+        return {
+          primary: "text-floral-mint",
+          secondary: "text-floral-sage",
+          accent: "text-floral-skyblue",
+          bg: "from-white to-floral-mint/10",
+          border: "border-floral-mint/30",
+          button: "bg-floral-mint hover:bg-floral-mint/90",
+          buttonText: "text-gray-700",
+          outline: "border-floral-mint text-floral-mint hover:bg-floral-mint/10"
+        };
+      default:
+        return {
+          primary: "text-floral-pink",
+          secondary: "text-floral-rose",
+          accent: "text-floral-lilac",
+          bg: "from-floral-cream to-white",
+          border: "border-floral-pink/30",
+          button: "bg-floral-rose hover:bg-floral-rose/90",
+          buttonText: "text-white",
+          outline: "border-floral-rose text-floral-rose hover:bg-floral-rose/10"
+        };
+    }
+  };
+
+  const themeColors = getThemeColors();
+
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white">
+    <div className={`min-h-screen flex flex-col bg-gradient-to-b ${themeColors.bg} text-gray-700`}>
       <Navigation />
 
-      <section className="pt-24 pb-12 bg-gradient-to-b from-black to-gray-900">
+      <section className={`pt-24 pb-12 bg-${getThemePattern()}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-display text-amber-400">
+            <motion.h1 
+              className={`text-4xl md:text-5xl font-bold mb-4 font-display ${themeColors.primary}`}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               {getEventTitle()} Themes
-            </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            </motion.h1>
+            <motion.p 
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               Explore our curated collection of themes to make your {eventType} event truly unique and memorable.
-            </p>
+            </motion.p>
           </div>
 
           <div className="flex justify-center gap-4 mb-8">
-            <Link to="/themes/wedding" className={`px-4 py-2 rounded-full ${eventType === "wedding" ? "bg-amber-400 text-black" : "bg-gray-800 text-amber-400 border border-amber-400"}`}>
+            <Link to="/themes/wedding" className={`px-4 py-2 rounded-full ${eventType === "wedding" ? "bg-floral-pink text-white" : "bg-white/80 text-floral-pink border border-floral-pink/30"}`}>
               Weddings
             </Link>
-            <Link to="/themes/birthday" className={`px-4 py-2 rounded-full ${eventType === "birthday" ? "bg-amber-400 text-black" : "bg-gray-800 text-amber-400 border border-amber-400"}`}>
+            <Link to="/themes/birthday" className={`px-4 py-2 rounded-full ${eventType === "birthday" ? "bg-floral-lavender text-white" : "bg-white/80 text-floral-lavender border border-floral-lavender/30"}`}>
               Birthdays
             </Link>
-            <Link to="/themes/corporate" className={`px-4 py-2 rounded-full ${eventType === "corporate" ? "bg-amber-400 text-black" : "bg-gray-800 text-amber-400 border border-amber-400"}`}>
+            <Link to="/themes/corporate" className={`px-4 py-2 rounded-full ${eventType === "corporate" ? "bg-floral-skyblue text-white" : "bg-white/80 text-floral-skyblue border border-floral-skyblue/30"}`}>
               Corporate
             </Link>
-            <Link to="/themes/anniversary" className={`px-4 py-2 rounded-full ${eventType === "anniversary" ? "bg-amber-400 text-black" : "bg-gray-800 text-amber-400 border border-amber-400"}`}>
+            <Link to="/themes/anniversary" className={`px-4 py-2 rounded-full ${eventType === "anniversary" ? "bg-floral-mint text-gray-700" : "bg-white/80 text-floral-mint border border-floral-mint/30"}`}>
               Anniversaries
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="py-12 bg-black">
+      <section className="py-12">
         <div className="container mx-auto px-4">
           {themes.length > 0 && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-              <div className="h-[500px] bg-gray-900 rounded-xl overflow-hidden border border-amber-500/30">
+              <div className={`h-[500px] bg-white/60 rounded-xl overflow-hidden backdrop-blur-sm ${themeColors.border} border shadow-lg shadow-${themeColors.primary}/5`}>
                 <Canvas camera={{ position: [0, 2, 5], fov: 40 }}>
                   <OrbitControls enableZoom={false} />
                   <PresentationControls
@@ -341,28 +443,28 @@ const Themes = () => {
                 </Canvas>
               </div>
 
-              <div className="bg-gray-900/50 p-8 rounded-xl border border-amber-500/30">
+              <div className={`bg-white/80 p-8 rounded-xl ${themeColors.border} border backdrop-blur-sm shadow-lg shadow-${themeColors.primary}/5`}>
                 <div className="mb-6 flex justify-between items-center">
                   <button
                     onClick={prevTheme}
-                    className="p-2 rounded-full bg-gray-800 hover:bg-amber-400 hover:text-black transition-colors"
+                    className={`p-2 rounded-full bg-white hover:${themeColors.button} hover:${themeColors.buttonText} transition-colors ${themeColors.border} border`}
                     aria-label="Previous theme"
                   >
                     <ChevronLeft className="h-6 w-6" />
                   </button>
-                  <h2 className="text-3xl font-bold font-display text-amber-400">
+                  <h2 className={`text-3xl font-bold font-display ${themeColors.primary}`}>
                     {themes[activeTheme].name}
                   </h2>
                   <button
                     onClick={nextTheme}
-                    className="p-2 rounded-full bg-gray-800 hover:bg-amber-400 hover:text-black transition-colors"
+                    className={`p-2 rounded-full bg-white hover:${themeColors.button} hover:${themeColors.buttonText} transition-colors ${themeColors.border} border`}
                     aria-label="Next theme"
                   >
                     <ChevronRight className="h-6 w-6" />
                   </button>
                 </div>
 
-                <p className="text-lg text-gray-300 mb-6">
+                <p className="text-lg text-gray-600 mb-6">
                   {themes[activeTheme].description}
                 </p>
 
@@ -370,7 +472,7 @@ const Themes = () => {
                   {themes[activeTheme].colors.map((color, index) => (
                     <div
                       key={index}
-                      className="w-10 h-10 rounded-full border border-gray-700"
+                      className="w-10 h-10 rounded-full border border-gray-200"
                       style={{ backgroundColor: color }}
                       title={`Theme color ${index + 1}`}
                     />
@@ -378,28 +480,28 @@ const Themes = () => {
                 </div>
 
                 <div className="mb-6">
-                  <h3 className="font-bold mb-3 text-amber-300">Theme Features:</h3>
+                  <h3 className={`font-bold mb-3 ${themeColors.secondary}`}>Theme Features:</h3>
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {themes[activeTheme].features.map((feature, index) => (
                       <li key={index} className="flex items-center">
-                        <Check className="h-5 w-5 text-amber-400 mr-2 flex-shrink-0" />
-                        <span className="text-gray-300">{feature}</span>
+                        <Check className={`h-5 w-5 ${themeColors.primary} mr-2 flex-shrink-0`} />
+                        <span className="text-gray-600">{feature}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-amber-500/30 pt-6">
+                <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t ${themeColors.border} pt-6`}>
                   <div>
-                    <span className="block text-gray-400">Starting from</span>
-                    <span className="text-3xl font-bold text-amber-400">{themes[activeTheme].price}</span>
+                    <span className="block text-gray-500">Starting from</span>
+                    <span className={`text-3xl font-bold ${themeColors.primary}`}>{themes[activeTheme].price}</span>
                   </div>
                   <div className="flex gap-3">
                     <Link to={`/booking?theme=${themes[activeTheme].id}`}>
-                      <Button className="bg-amber-400 text-black hover:bg-amber-500">Book This Theme</Button>
+                      <Button className={`${themeColors.button} ${themeColors.buttonText}`}>Book This Theme</Button>
                     </Link>
                     <Link to="/contact">
-                      <Button variant="outline" className="border-amber-400 text-amber-400 hover:bg-amber-400/10">Get Quote</Button>
+                      <Button variant="outline" className={`${themeColors.outline}`}>Get Quote</Button>
                     </Link>
                   </div>
                 </div>
@@ -409,17 +511,17 @@ const Themes = () => {
         </div>
       </section>
 
-      <section className="py-12 bg-gray-900">
+      <section className={`py-12 ${getThemePattern()} bg-opacity-5`}>
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-8 font-display text-amber-400">All {getEventTitle()} Themes</h2>
+          <h2 className={`text-2xl font-bold mb-8 font-display ${themeColors.primary}`}>All {getEventTitle()} Themes</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6" ref={sliderRef}>
             {themes.map((theme, index) => (
               <motion.div
                 key={theme.id}
-                className={`cursor-pointer rounded-xl overflow-hidden shadow-lg ${
-                  activeTheme === index ? "ring-2 ring-amber-400 ring-offset-2 ring-offset-gray-900" : ""
+                className={`cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 ${
+                  activeTheme === index ? `ring-2 ring-${themeColors.primary.replace('text-', '')} ring-offset-2 ring-offset-white` : ""
                 }`}
-                whileHover={{ y: -10, boxShadow: "0 10px 25px -5px rgba(251, 191, 36, 0.3)" }}
+                whileHover={{ y: -10 }}
                 onClick={() => scrollToTheme(index)}
               >
                 <div className="relative h-48">
@@ -428,9 +530,9 @@ const Themes = () => {
                     alt={theme.name}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="text-white font-bold text-amber-200">{theme.name}</h3>
+                    <h3 className="text-white font-bold">{theme.name}</h3>
                   </div>
                 </div>
               </motion.div>
@@ -439,7 +541,7 @@ const Themes = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-gradient-to-r from-amber-600 to-amber-400 text-black">
+      <section className={`py-16 ${getThemeGradient()} text-gray-800`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-display">
             Ready to Bring Your Dream {getEventTitle()} to Life?
@@ -450,18 +552,52 @@ const Themes = () => {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link to="/booking">
-              <Button size="lg" className="bg-black text-amber-400 hover:bg-gray-900">
+              <Button size="lg" className={`${themeColors.button} ${themeColors.buttonText}`}>
                 Book a Consultation
               </Button>
             </Link>
             <Link to="/contact">
-              <Button size="lg" variant="outline" className="border-black text-black hover:bg-black/10">
+              <Button size="lg" variant="outline" className={`${themeColors.outline}`}>
                 Contact Us
               </Button>
             </Link>
           </div>
         </div>
       </section>
+
+      {/* Decorative flower elements */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        {[...Array(10)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute"
+            initial={{ 
+              x: `${Math.random() * 100}%`, 
+              y: `${Math.random() * 100}%`,
+              opacity: 0.03 + Math.random() * 0.04,
+              scale: 0.7 + Math.random() * 0.6
+            }}
+            animate={{ 
+              y: [
+                `${Math.random() * 100}%`, 
+                `${Math.random() * 100 - 10}%`, 
+                `${Math.random() * 100}%`
+              ],
+              rotate: [0, 10, -10, 0]
+            }}
+            transition={{ 
+              duration: 20 + Math.random() * 30, 
+              repeat: Infinity,
+              repeatType: "mirror"
+            }}
+          >
+            <Flower 
+              size={40 + Math.random() * 60} 
+              className={`${index % 2 === 0 ? themeColors.primary : index % 3 === 0 ? themeColors.secondary : themeColors.accent}`}
+            />
+          </motion.div>
+        ))}
+      </div>
 
       <Footer />
     </div>

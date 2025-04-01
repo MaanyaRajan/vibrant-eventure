@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Flower } from "lucide-react";
 import { motion } from "framer-motion";
 
 const Register = () => {
@@ -38,7 +38,7 @@ const Register = () => {
       if (fullName && email && password) {
         toast({
           title: "Registration successful",
-          description: "Welcome to Majestic Moments! Your account has been created.",
+          description: "Welcome to Blooming Events! Your account has been created.",
         });
         navigate("/dashboard");
       } else {
@@ -57,7 +57,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-black">
+    <div className="min-h-screen flex bg-gradient-to-b from-white via-pink-50 to-lavender-50">
       {/* Left Side - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <motion.div 
@@ -67,16 +67,16 @@ const Register = () => {
           transition={{ duration: 0.5 }}
         >
           <Link to="/" className="inline-block mb-8">
-            <h3 className="text-2xl font-display font-bold text-amber-400">Majestic Moments</h3>
+            <h3 className="text-2xl font-display font-bold gradient-text">Blooming Events</h3>
           </Link>
           
-          <h1 className="text-3xl font-bold mb-2 font-display text-white">Create an account</h1>
-          <p className="text-gray-400 mb-8">Enter your details to get started</p>
+          <h1 className="text-3xl font-bold mb-2 font-display bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400">Create an account</h1>
+          <p className="text-gray-600 mb-8">Enter your details to get started</p>
           
           <form onSubmit={handleSubmit}>
             <div className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-gray-300">Full Name</Label>
+                <Label htmlFor="fullName" className="text-gray-700">Full Name</Label>
                 <Input
                   id="fullName"
                   type="text"
@@ -84,12 +84,12 @@ const Register = () => {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
-                  className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500"
+                  className="border-floral-pink/20 focus:border-floral-pink"
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-gray-300">Email</Label>
+                <Label htmlFor="email" className="text-gray-700">Email</Label>
                 <Input
                   id="email"
                   type="email"
@@ -97,12 +97,12 @@ const Register = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500"
+                  className="border-floral-lavender/20 focus:border-floral-lavender"
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-gray-300">Password</Label>
+                <Label htmlFor="password" className="text-gray-700">Password</Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -111,7 +111,7 @@ const Register = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="pr-10 bg-gray-900 border-gray-700 text-white placeholder:text-gray-500"
+                    className="pr-10 border-floral-skyblue/20 focus:border-floral-skyblue"
                   />
                   <button
                     type="button"
@@ -135,27 +135,27 @@ const Register = () => {
                   id="terms" 
                   checked={agreeTerms}
                   onCheckedChange={(checked) => setAgreeTerms(checked as boolean)}
-                  className="mt-1 border-gray-700 data-[state=checked]:bg-amber-400 data-[state=checked]:text-black"
+                  className="mt-1 border-floral-pink data-[state=checked]:bg-floral-pink data-[state=checked]:text-white"
                 />
-                <Label htmlFor="terms" className="text-sm cursor-pointer text-gray-300">
+                <Label htmlFor="terms" className="text-sm cursor-pointer text-gray-600">
                   I agree to the{" "}
-                  <Link to="/terms" className="text-amber-400 hover:underline">
+                  <Link to="/terms" className="text-floral-rose hover:underline">
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link to="/privacy" className="text-amber-400 hover:underline">
+                  <Link to="/privacy" className="text-floral-rose hover:underline">
                     Privacy Policy
                   </Link>
                 </Label>
               </div>
               
-              <Button type="submit" className="w-full bg-amber-400 text-black hover:bg-amber-500" disabled={isLoading}>
+              <Button type="submit" className="w-full bg-gradient-to-r from-floral-pink via-floral-lavender to-floral-skyblue text-white hover:opacity-90" disabled={isLoading}>
                 {isLoading ? "Creating account..." : "Sign up"}
               </Button>
               
-              <div className="text-center text-sm text-gray-400">
+              <div className="text-center text-sm text-gray-600">
                 Already have an account?{" "}
-                <Link to="/login" className="text-amber-400 hover:underline font-medium">
+                <Link to="/login" className="text-floral-rose hover:underline font-medium">
                   Sign in
                 </Link>
               </div>
@@ -164,22 +164,67 @@ const Register = () => {
         </motion.div>
       </div>
       
-      {/* Right Side - Image */}
+      {/* Right Side - Image with floral overlay */}
       <div className="hidden lg:block lg:w-1/2 relative">
-        <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/60 to-amber-700/60 mix-blend-multiply"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-floral-pink/30 via-floral-lavender/30 to-floral-skyblue/30 mix-blend-soft-light"></div>
         <img
           src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80"
           alt="Event decoration"
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 flex items-center justify-center p-12">
-          <div className="max-w-lg text-white bg-black/40 backdrop-blur-sm p-8 rounded-2xl border border-amber-500/20">
-            <h2 className="text-3xl font-bold mb-4 font-display text-amber-400">Begin Your Majestic Journey</h2>
-            <p className="text-white/90">
-              Join Majestic Moments to unlock a world of possibilities for your special occasions. 
+          <div className="max-w-lg bg-white/70 backdrop-blur-sm p-8 rounded-2xl border border-white/50 shadow-xl">
+            <h2 className="text-3xl font-bold mb-4 font-display bg-clip-text text-transparent bg-gradient-to-r from-floral-pink via-floral-lavender to-floral-skyblue">Begin Your Blooming Journey</h2>
+            <p className="text-gray-700">
+              Join Blooming Events to unlock a world of possibilities for your special occasions. 
               Create an account today and discover our premium themes, venues, and services.
             </p>
           </div>
+        </div>
+        
+        {/* Animated flower decorations */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {[...Array(15)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute"
+              initial={{ 
+                x: `${Math.random() * 100}%`, 
+                y: `${Math.random() * 100}%`,
+                opacity: 0.2 + Math.random() * 0.3,
+                scale: 0.5 + Math.random() * 0.8,
+                rotate: Math.random() * 360
+              }}
+              animate={{ 
+                y: [
+                  `${Math.random() * 100}%`, 
+                  `${Math.random() * 100 - 10}%`, 
+                  `${Math.random() * 100}%`
+                ],
+                rotate: [
+                  Math.random() * 360,
+                  Math.random() * 360 + 180,
+                  Math.random() * 360
+                ]
+              }}
+              transition={{ 
+                duration: 15 + Math.random() * 20, 
+                repeat: Infinity,
+                repeatType: "mirror"
+              }}
+            >
+              <Flower 
+                size={20 + Math.random() * 40} 
+                className={`${
+                  i % 3 === 0 
+                    ? "text-floral-pink/60" 
+                    : i % 3 === 1 
+                    ? "text-floral-lavender/60" 
+                    : "text-floral-skyblue/60"
+                }`} 
+              />
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>
