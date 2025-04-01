@@ -13,6 +13,7 @@ import Themes from "./pages/Themes";
 import Services from "./pages/Services";
 import Booking from "./pages/Booking";
 import NotFound from "./pages/NotFound";
+import Chatbot from "./components/Chatbot";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/booking" element={<Booking />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <Chatbot />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

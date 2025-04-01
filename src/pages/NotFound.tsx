@@ -16,48 +16,109 @@ const NotFound = () => {
     );
   }, [location.pathname]);
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.2
+      }
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 via-purple-900 to-black text-white">
       <Navigation />
 
       <div className="flex-grow flex items-center justify-center py-20">
-        <div className="container max-w-3xl mx-auto px-4 text-center">
+        <div className="container max-w-3xl mx-auto px-4 text-center relative">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="relative z-10"
           >
-            <div className="mb-6">
+            {/* Background sparkles effect */}
+            <div className="absolute inset-0 -z-10">
+              {[...Array(20)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute h-2 w-2 rounded-full bg-amber-400"
+                  initial={{ 
+                    x: Math.random() * 100 - 50 + "%", 
+                    y: Math.random() * 100 - 50 + "%",
+                    opacity: 0.2,
+                    scale: Math.random() * 0.5 + 0.5
+                  }}
+                  animate={{ 
+                    opacity: [0.2, 0.8, 0.2], 
+                    scale: [Math.random() * 0.5 + 0.5, Math.random() * 1 + 1, Math.random() * 0.5 + 0.5]
+                  }}
+                  transition={{ 
+                    duration: Math.random() * 3 + 2, 
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+              ))}
+            </div>
+            
+            <motion.div
+              variants={itemVariants}
+              className="mb-6"
+            >
               <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-9xl font-bold text-amber-400 font-display"
+                className="text-9xl font-bold bg-gradient-to-r from-amber-400 via-purple-500 to-pink-500 bg-clip-text text-transparent font-display inline-block"
+                animate={{ 
+                  textShadow: [
+                    "0 0 7px rgba(255,191,0,0.5)", 
+                    "0 0 10px rgba(255,191,0,0.8)", 
+                    "0 0 7px rgba(255,191,0,0.5)"
+                  ] 
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
               >
                 404
               </motion.div>
-            </div>
+            </motion.div>
             
-            <h1 className="text-3xl font-bold mb-4 font-display">Page Not Found</h1>
+            <motion.h1 
+              variants={itemVariants}
+              className="text-3xl font-bold mb-4 font-display bg-gradient-to-r from-amber-200 to-amber-400 bg-clip-text text-transparent"
+            >
+              Page Not Found
+            </motion.h1>
             
-            <p className="text-lg text-gray-400 mb-8 max-w-lg mx-auto">
+            <motion.p 
+              variants={itemVariants}
+              className="text-lg text-gray-300 mb-8 max-w-lg mx-auto"
+            >
               Sorry, the page you're looking for doesn't exist or has been moved. 
               Let's get you back on track to planning your perfect event.
-            </p>
+            </motion.p>
             
-            <div className="space-y-4">
+            <motion.div 
+              variants={itemVariants}
+              className="space-y-4"
+            >
               <Link to="/">
-                <Button size="lg" className="mx-2 bg-amber-400 text-black hover:bg-amber-500">
+                <Button size="lg" className="mx-2 bg-gradient-to-r from-amber-400 to-amber-600 text-black hover:from-amber-500 hover:to-amber-700 shadow-lg shadow-amber-600/20">
                   Return to Home
                 </Button>
               </Link>
               
               <Link to="/booking">
-                <Button size="lg" variant="outline" className="mx-2 border-amber-400 text-amber-400 hover:bg-amber-400/10">
+                <Button size="lg" variant="outline" className="mx-2 border-amber-400 text-amber-400 hover:bg-amber-400/10 shadow-lg shadow-amber-600/10">
                   Book an Event
                 </Button>
               </Link>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>

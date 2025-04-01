@@ -1,275 +1,203 @@
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 import { Calendar } from "@/components/ui/calendar";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  CalendarDays,
+  Gift,
+  Heart,
+  Star,
+  Users,
+  Calendar as CalendarIcon,
+  Wallet,
+  Clock
+} from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Calendar as CalendarIcon, Clock, MapPin, Users, CheckCircle, PenLine, Trash2 } from "lucide-react";
-import { format } from "date-fns";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { motion } from "framer-motion";
 
 const Dashboard = () => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
-
-  // Mock data for upcoming events
+  const [date, setDate] = useState<Date>(new Date());
+  
+  // Sample upcoming events data
   const upcomingEvents = [
-    {
-      id: 1,
-      title: "Smith Wedding",
-      date: new Date(2023, 5, 15),
-      location: "Grand Plaza Hotel",
-      guests: 150,
-      status: "confirmed",
+    { 
+      id: 1, 
+      title: "Johnson's Wedding", 
+      date: "June 15, 2023", 
       type: "wedding",
+      image: "https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2940&q=80"
     },
-    {
-      id: 2,
-      title: "Tech Corp Annual Meeting",
-      date: new Date(2023, 6, 10),
-      location: "Innovation Center",
-      guests: 80,
-      status: "pending",
-      type: "corporate",
-    },
-    {
-      id: 3,
-      title: "Johnson's 50th Birthday",
-      date: new Date(2023, 7, 22),
-      location: "Riverside Gardens",
-      guests: 50,
-      status: "confirmed",
+    { 
+      id: 2, 
+      title: "Sarah's 30th Birthday", 
+      date: "July 8, 2023", 
       type: "birthday",
+      image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2940&q=80"
     },
-  ];
-
-  // Mock data for past events
-  const pastEvents = [
-    {
-      id: 4,
-      title: "Robinsons Anniversary Party",
-      date: new Date(2023, 1, 14),
-      location: "Hilltop Vineyard",
-      guests: 30,
-      status: "completed",
-      type: "anniversary",
-    },
-    {
-      id: 5,
-      title: "Winter Corporate Retreat",
-      date: new Date(2023, 0, 22),
-      location: "Mountain Lodge",
-      guests: 45,
-      status: "completed",
+    { 
+      id: 3, 
+      title: "Tech Corp Annual Meeting", 
+      date: "August 3, 2023", 
       type: "corporate",
+      image: "https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2940&q=80"
     },
   ];
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "confirmed":
-        return <Badge className="bg-green-500">Confirmed</Badge>;
-      case "pending":
-        return <Badge className="bg-yellow-500">Pending</Badge>;
-      case "completed":
-        return <Badge className="bg-blue-500">Completed</Badge>;
+  
+  // Sample performance metrics
+  const metrics = [
+    { title: "Total Bookings", value: "127", icon: <CalendarDays className="h-5 w-5 text-amber-500" /> },
+    { title: "Revenue", value: "$45,231", icon: <Wallet className="h-5 w-5 text-amber-500" /> },
+    { title: "Completion Rate", value: "98%", icon: <Clock className="h-5 w-5 text-amber-500" /> },
+  ];
+  
+  // Helper function to get icon by event type
+  const getEventIcon = (type: string) => {
+    switch(type) {
+      case "wedding":
+        return <Heart className="h-5 w-5 text-pink-500" />;
+      case "birthday":
+        return <Gift className="h-5 w-5 text-orange-500" />;
+      case "anniversary":
+        return <Star className="h-5 w-5 text-purple-500" />;
+      case "corporate":
+        return <Users className="h-5 w-5 text-blue-500" />;
       default:
-        return <Badge>Unknown</Badge>;
+        return <CalendarIcon className="h-5 w-5 text-gray-500" />;
     }
   };
-
-  const getEventTypeBadge = (type: string) => {
-    switch (type) {
+  
+  // Get event type badge color
+  const getEventBadgeClass = (type: string) => {
+    switch(type) {
       case "wedding":
-        return <Badge className="bg-event-wedding">Wedding</Badge>;
+        return "bg-pink-500";
       case "birthday":
-        return <Badge className="bg-event-birthday">Birthday</Badge>;
-      case "corporate":
-        return <Badge className="bg-event-corporate">Corporate</Badge>;
+        return "bg-orange-500";
       case "anniversary":
-        return <Badge className="bg-event-anniversary">Anniversary</Badge>;
+        return "bg-purple-500";
+      case "corporate":
+        return "bg-blue-500";
       default:
-        return <Badge>Event</Badge>;
+        return "bg-gray-500";
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
       <Navigation />
-
-      <div className="pt-20 pb-10 bg-gray-50 flex-grow">
-        <div className="container mx-auto px-4">
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold font-display">Your Dashboard</h1>
-            <p className="text-gray-600">Manage your events and bookings</p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Sidebar */}
-            <div className="lg:col-span-1">
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle>Calendar</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    className="rounded-md border"
-                    highlightedDates={[
-                      new Date(2023, 5, 15),
-                      new Date(2023, 6, 10),
-                      new Date(2023, 7, 22),
-                    ]}
-                  />
-                  <div className="mt-4">
-                    <h3 className="font-medium text-sm text-gray-500 mb-2">Upcoming Events</h3>
-                    <div className="space-y-2">
-                      {upcomingEvents.slice(0, 3).map((event) => (
-                        <div key={event.id} className="flex items-center gap-2 text-sm p-2 rounded-md hover:bg-gray-100">
-                          <div className="w-2 h-2 rounded-full bg-primary"></div>
-                          <span>{event.title}</span>
-                          <span className="text-gray-500 ml-auto">
-                            {format(event.date, "MMM d")}
-                          </span>
-                        </div>
-                      ))}
+      
+      <main className="container mx-auto px-4 py-10">
+        <motion.h1 
+          className="text-4xl md:text-5xl font-bold mb-8 text-center font-display text-amber-400"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          Your Dashboard
+        </motion.h1>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Calendar Section */}
+          <Card className="md:col-span-1 bg-black/50 border border-amber-500/20 text-white">
+            <CardHeader>
+              <CardTitle className="text-amber-400">Calendar</CardTitle>
+              <CardDescription className="text-gray-400">
+                View your upcoming events
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                className="bg-black/50 text-white rounded-md p-3"
+              />
+              
+              <div className="mt-4">
+                <h3 className="text-amber-400 font-medium mb-2">Today's Events</h3>
+                <p className="text-gray-300">No events scheduled for today</p>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* Upcoming Events Section */}
+          <Card className="md:col-span-2 bg-black/50 border border-amber-500/20 text-white">
+            <CardHeader>
+              <CardTitle className="text-amber-400">Upcoming Events</CardTitle>
+              <CardDescription className="text-gray-400">
+                Your next scheduled events
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {upcomingEvents.map((event) => (
+                  <motion.div 
+                    key={event.id}
+                    whileHover={{ y: -5 }}
+                    transition={{ duration: 0.2 }}
+                    className="group relative overflow-hidden rounded-lg border border-amber-500/20"
+                  >
+                    <AspectRatio ratio={16/9}>
+                      <img 
+                        src={event.image} 
+                        alt={event.title} 
+                        className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
+                      />
+                    </AspectRatio>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-80"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <Badge className={`mb-2 ${getEventBadgeClass(event.type)}`}>
+                        {getEventIcon(event.type)}
+                        <span className="ml-1">{event.type.charAt(0).toUpperCase() + event.type.slice(1)}</span>
+                      </Badge>
+                      <h3 className="text-lg font-bold text-white mb-1">{event.title}</h3>
+                      <p className="text-sm text-gray-300">{event.date}</p>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="mt-6">
-                <CardHeader className="pb-3">
-                  <CardTitle>Quick Actions</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <Button className="w-full justify-start" variant="outline">
-                      <PenLine className="mr-2 h-4 w-4" />
-                      New Event Request
-                    </Button>
-                    <Button className="w-full justify-start" variant="outline">
-                      <Users className="mr-2 h-4 w-4" />
-                      Manage Guest Lists
-                    </Button>
-                    <Button className="w-full justify-start" variant="outline">
-                      <MapPin className="mr-2 h-4 w-4" />
-                      Browse Venues
-                    </Button>
-                    <Button className="w-full justify-start" variant="outline">
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      View All Events
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Main Content */}
-            <div className="lg:col-span-2">
-              <Tabs defaultValue="upcoming" className="w-full">
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="upcoming">Upcoming Events</TabsTrigger>
-                  <TabsTrigger value="past">Past Events</TabsTrigger>
-                </TabsList>
-                <TabsContent value="upcoming" className="mt-6">
-                  <div className="space-y-4">
-                    {upcomingEvents.map((event) => (
-                      <Card key={event.id}>
-                        <CardContent className="p-6">
-                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                            <div>
-                              <div className="flex items-center gap-2 mb-1">
-                                <h3 className="text-xl font-bold">{event.title}</h3>
-                                {getEventTypeBadge(event.type)}
-                                {getStatusBadge(event.status)}
-                              </div>
-                              <div className="text-gray-500 space-y-1">
-                                <div className="flex items-center">
-                                  <CalendarIcon className="h-4 w-4 mr-2" />
-                                  <span>{format(event.date, "EEEE, MMMM d, yyyy")}</span>
-                                </div>
-                                <div className="flex items-center">
-                                  <Clock className="h-4 w-4 mr-2" />
-                                  <span>3:00 PM - 11:00 PM</span>
-                                </div>
-                                <div className="flex items-center">
-                                  <MapPin className="h-4 w-4 mr-2" />
-                                  <span>{event.location}</span>
-                                </div>
-                                <div className="flex items-center">
-                                  <Users className="h-4 w-4 mr-2" />
-                                  <span>{event.guests} Guests</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="flex flex-wrap sm:flex-col gap-2 sm:text-right">
-                              <Button>View Details</Button>
-                              <Button variant="outline">Modify Event</Button>
-                            </div>
-                          </div>
-                          {event.status === "pending" && (
-                            <div className="mt-4 pt-4 border-t flex items-center gap-2">
-                              <CheckCircle className="h-5 w-5 text-yellow-500" />
-                              <span className="text-sm text-gray-600">
-                                Awaiting final confirmation. We'll contact you soon.
-                              </span>
-                            </div>
-                          )}
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </TabsContent>
-                <TabsContent value="past" className="mt-6">
-                  <div className="space-y-4">
-                    {pastEvents.map((event) => (
-                      <Card key={event.id}>
-                        <CardContent className="p-6">
-                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                            <div>
-                              <div className="flex items-center gap-2 mb-1">
-                                <h3 className="text-xl font-bold">{event.title}</h3>
-                                {getEventTypeBadge(event.type)}
-                                {getStatusBadge(event.status)}
-                              </div>
-                              <div className="text-gray-500 space-y-1">
-                                <div className="flex items-center">
-                                  <CalendarIcon className="h-4 w-4 mr-2" />
-                                  <span>{format(event.date, "EEEE, MMMM d, yyyy")}</span>
-                                </div>
-                                <div className="flex items-center">
-                                  <MapPin className="h-4 w-4 mr-2" />
-                                  <span>{event.location}</span>
-                                </div>
-                                <div className="flex items-center">
-                                  <Users className="h-4 w-4 mr-2" />
-                                  <span>{event.guests} Guests</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="flex flex-wrap sm:flex-col gap-2 sm:text-right">
-                              <Button variant="outline">View Photos</Button>
-                              <Button variant="ghost" className="text-red-500 hover:text-red-700 hover:bg-red-50">
-                                <Trash2 className="h-4 w-4 mr-2" />
-                                Remove
-                              </Button>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </TabsContent>
-              </Tabs>
-            </div>
-          </div>
+                  </motion.div>
+                ))}
+              </div>
+              
+              <div className="mt-6 text-center">
+                <Link to="/booking">
+                  <Button className="bg-amber-500 hover:bg-amber-600 text-black">
+                    Book a New Event
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </div>
-
+        
+        {/* Metrics Section */}
+        <motion.div 
+          className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          {metrics.map((metric, index) => (
+            <Card key={index} className="bg-black/50 border border-amber-500/20 text-white">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-400">{metric.title}</p>
+                    <h3 className="text-2xl font-bold text-amber-400 mt-1">{metric.value}</h3>
+                  </div>
+                  <div className="bg-black/50 p-3 rounded-full">
+                    {metric.icon}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </motion.div>
+      </main>
+      
       <Footer />
     </div>
   );

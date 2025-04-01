@@ -129,4 +129,61 @@
   .bg-glass {
     @apply bg-white/10 backdrop-blur-md border border-white/20;
   }
+  
+  /* New vibrant UI classes */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-pink-500 to-purple-600;
+  }
+  
+  .vibrant-card {
+    @apply bg-gradient-to-br from-gray-900 to-black border border-amber-500/30 shadow-lg shadow-amber-400/5 hover:shadow-amber-400/10 transition-all duration-300;
+  }
+  
+  .vibrant-button {
+    @apply bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-black font-medium transition-all;
+  }
+  
+  .vibrant-background {
+    background: radial-gradient(circle at top right, rgba(236, 72, 153, 0.08), transparent 250px),
+                radial-gradient(circle at bottom left, rgba(250, 204, 21, 0.08), transparent 250px),
+                linear-gradient(to bottom, #000000, #0f0f1a);
+  }
+}
+
+/* Enhanced animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.7);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
 }
