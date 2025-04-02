@@ -427,7 +427,7 @@ const Themes = () => {
         <div className="container mx-auto px-4">
           {themes.length > 0 && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-              <div className={`h-[500px] bg-white/60 rounded-xl overflow-hidden backdrop-blur-sm ${themeColors.border} border shadow-lg shadow-${themeColors.primary}/5`}>
+              <div className={`h-[500px] bg-white/60 rounded-xl overflow-hidden backdrop-blur-sm ${themeColors.border} border shadow-lg shadow-${themeColors.primary.replace('text-', '')}/5`}>
                 <Canvas camera={{ position: [0, 2, 5], fov: 40 }}>
                   <OrbitControls enableZoom={false} />
                   <PresentationControls
@@ -443,7 +443,7 @@ const Themes = () => {
                 </Canvas>
               </div>
 
-              <div className={`bg-white/80 p-8 rounded-xl ${themeColors.border} border backdrop-blur-sm shadow-lg shadow-${themeColors.primary}/5`}>
+              <div className={`bg-white/80 p-8 rounded-xl ${themeColors.border} border backdrop-blur-sm shadow-lg shadow-${themeColors.primary.replace('text-', '')}/5`}>
                 <div className="mb-6 flex justify-between items-center">
                   <button
                     onClick={prevTheme}
@@ -588,12 +588,12 @@ const Themes = () => {
             transition={{ 
               duration: 20 + Math.random() * 30, 
               repeat: Infinity,
-              repeatType: "mirror"
+              repeatType: "mirror" as const
             }}
           >
             <Flower 
               size={40 + Math.random() * 60} 
-              className={`${index % 2 === 0 ? themeColors.primary : index % 3 === 0 ? themeColors.secondary : themeColors.accent}`}
+              className={`${i % 2 === 0 ? themeColors.primary : i % 3 === 0 ? themeColors.secondary : themeColors.accent}`}
             />
           </motion.div>
         ))}

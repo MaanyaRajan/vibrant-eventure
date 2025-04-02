@@ -1,231 +1,282 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useToast } from "@/hooks/use-toast";
-import { Eye, EyeOff, Flower } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { Flower } from "lucide-react";
 import { motion } from "framer-motion";
 
+// Create a schema for form validation
+const formSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters" })
+    .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
+    .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
+    .regex(/[0-9]/, { message: "Password must contain at least one number" }),
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
+});
+
 const Register = () => {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [agreeTerms, setAgreeTerms] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!agreeTerms) {
+  // Initialize form
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setIsLoading(true);
+      
+      // Simulating API call with a timeout
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      
+      // Show success toast
       toast({
-        variant: "destructive",
-        title: "Terms and Conditions",
-        description: "You must agree to the terms and conditions to continue.",
+        title: "Account created successfully!",
+        description: "You can now log in with your credentials.",
       });
-      return;
-    }
-    
-    setIsLoading(true);
-
-    // Simulate registration process
-    setTimeout(() => {
-      if (fullName && email && password) {
-        toast({
-          title: "Registration successful",
-          description: "Welcome to Blooming Events! Your account has been created.",
-        });
-        navigate("/dashboard");
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Registration failed",
-          description: "Please fill in all required fields and try again.",
-        });
-      }
+      
+      // Redirect to login page
+      navigate("/login");
+    } catch (error) {
+      // Show error toast
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1500);
-  };
+    }
+  }
 
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
   };
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-b from-white via-pink-50 to-lavender-50">
-      {/* Left Side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-        <motion.div 
-          className="max-w-md w-full"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Link to="/" className="inline-block mb-8">
-            <h3 className="text-2xl font-display font-bold gradient-text">Blooming Events</h3>
-          </Link>
-          
-          <h1 className="text-3xl font-bold mb-2 font-display bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400">Create an account</h1>
-          <p className="text-gray-600 mb-8">Enter your details to get started</p>
-          
-          <form onSubmit={handleSubmit}>
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-gray-700">Full Name</Label>
-                <Input
-                  id="fullName"
-                  type="text"
-                  placeholder="Enter your full name"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  required
-                  className="border-floral-pink/20 focus:border-floral-pink"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-gray-700">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="border-floral-lavender/20 focus:border-floral-lavender"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-gray-700">Password</Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Create a password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className="pr-10 border-floral-skyblue/20 focus:border-floral-skyblue"
-                  />
-                  <button
-                    type="button"
-                    onClick={toggleShowPassword}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-                  >
-                    {showPassword ? (
-                      <EyeOff size={18} />
-                    ) : (
-                      <Eye size={18} />
-                    )}
-                  </button>
-                </div>
-                <p className="text-xs text-gray-500 mt-1">
-                  Password must be at least 8 characters long with at least one uppercase letter, one number, and one special character.
-                </p>
-              </div>
-              
-              <div className="flex items-start space-x-2">
-                <Checkbox 
-                  id="terms" 
-                  checked={agreeTerms}
-                  onCheckedChange={(checked) => setAgreeTerms(checked as boolean)}
-                  className="mt-1 border-floral-pink data-[state=checked]:bg-floral-pink data-[state=checked]:text-white"
-                />
-                <Label htmlFor="terms" className="text-sm cursor-pointer text-gray-600">
-                  I agree to the{" "}
-                  <Link to="/terms" className="text-floral-rose hover:underline">
-                    Terms of Service
-                  </Link>{" "}
-                  and{" "}
-                  <Link to="/privacy" className="text-floral-rose hover:underline">
-                    Privacy Policy
-                  </Link>
-                </Label>
-              </div>
-              
-              <Button type="submit" className="w-full bg-gradient-to-r from-floral-pink via-floral-lavender to-floral-skyblue text-white hover:opacity-90" disabled={isLoading}>
-                {isLoading ? "Creating account..." : "Sign up"}
-              </Button>
-              
-              <div className="text-center text-sm text-gray-600">
-                Already have an account?{" "}
-                <Link to="/login" className="text-floral-rose hover:underline font-medium">
-                  Sign in
-                </Link>
-              </div>
-            </div>
-          </form>
-        </motion.div>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-pink-50 to-purple-50">
+      {/* Decorative Elements */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute"
+            initial={{ 
+              x: `${Math.random() * 100}%`, 
+              y: `${Math.random() * 100}%`,
+              opacity: 0.05 + Math.random() * 0.1,
+              scale: 0.5 + Math.random() * 1,
+              rotate: Math.random() * 360
+            }}
+            animate={{ 
+              y: [
+                `${Math.random() * 100}%`, 
+                `${Math.random() * 100 - 10}%`, 
+                `${Math.random() * 100}%`
+              ],
+              rotate: [
+                Math.random() * 360,
+                Math.random() * 360 + 30,
+                Math.random() * 360
+              ]
+            }}
+            transition={{ 
+              duration: 10 + Math.random() * 20, 
+              repeat: Infinity,
+              repeatType: "mirror" as const
+            }}
+          >
+            <Flower 
+              size={30 + Math.random() * 70} 
+              className={`${
+                i % 5 === 0 ? "text-pink-300" : 
+                i % 5 === 1 ? "text-purple-300" : 
+                i % 5 === 2 ? "text-blue-300" : 
+                i % 5 === 3 ? "text-green-300" : 
+                "text-yellow-300"
+              }`}
+            />
+          </motion.div>
+        ))}
       </div>
-      
-      {/* Right Side - Image with floral overlay */}
-      <div className="hidden lg:block lg:w-1/2 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-floral-pink/30 via-floral-lavender/30 to-floral-skyblue/30 mix-blend-soft-light"></div>
-        <img
-          src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80"
-          alt="Event decoration"
-          className="h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 flex items-center justify-center p-12">
-          <div className="max-w-lg bg-white/70 backdrop-blur-sm p-8 rounded-2xl border border-white/50 shadow-xl">
-            <h2 className="text-3xl font-bold mb-4 font-display bg-clip-text text-transparent bg-gradient-to-r from-floral-pink via-floral-lavender to-floral-skyblue">Begin Your Blooming Journey</h2>
-            <p className="text-gray-700">
-              Join Blooming Events to unlock a world of possibilities for your special occasions. 
-              Create an account today and discover our premium themes, venues, and services.
-            </p>
-          </div>
-        </div>
-        
-        {/* Animated flower decorations */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {[...Array(15)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute"
-              initial={{ 
-                x: `${Math.random() * 100}%`, 
-                y: `${Math.random() * 100}%`,
-                opacity: 0.2 + Math.random() * 0.3,
-                scale: 0.5 + Math.random() * 0.8,
-                rotate: Math.random() * 360
-              }}
-              animate={{ 
-                y: [
-                  `${Math.random() * 100}%`, 
-                  `${Math.random() * 100 - 10}%`, 
-                  `${Math.random() * 100}%`
-                ],
-                rotate: [
-                  Math.random() * 360,
-                  Math.random() * 360 + 180,
-                  Math.random() * 360
-                ]
-              }}
-              transition={{ 
-                duration: 15 + Math.random() * 20, 
-                repeat: Infinity,
-                repeatType: "mirror"
-              }}
-            >
-              <Flower 
-                size={20 + Math.random() * 40} 
-                className={`${
-                  i % 3 === 0 
-                    ? "text-floral-pink/60" 
-                    : i % 3 === 1 
-                    ? "text-floral-lavender/60" 
-                    : "text-floral-skyblue/60"
-                }`} 
-              />
-            </motion.div>
-          ))}
-        </div>
+
+      <div className="flex-1 flex items-center justify-center p-4 z-10">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="w-full max-w-lg"
+        >
+          <motion.div 
+            className="bg-white/80 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-pink-100"
+            variants={itemVariants}
+          >
+            <div className="text-center mb-8">
+              <div className="flex justify-center mb-2">
+                <motion.div
+                  initial={{ rotate: 0 }}
+                  animate={{ rotate: 360 }}
+                  transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                >
+                  <Flower size={40} className="text-pink-500" />
+                </motion.div>
+              </div>
+              <h1 className="text-3xl font-bold font-display bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-transparent bg-clip-text">
+                Create Your Account
+              </h1>
+              <p className="text-gray-600 mt-2">
+                Join us to create beautiful floral arrangements for your special events
+              </p>
+            </div>
+
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <motion.div variants={itemVariants}>
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-700">Full Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter your name"
+                            className="bg-white/50 border-pink-200 focus-visible:ring-pink-400"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+
+                <motion.div variants={itemVariants}>
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-700">Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            placeholder="Enter your email"
+                            className="bg-white/50 border-pink-200 focus-visible:ring-pink-400"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+
+                <motion.div variants={itemVariants}>
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-700">Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="Create a password"
+                            className="bg-white/50 border-pink-200 focus-visible:ring-pink-400"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+
+                <motion.div variants={itemVariants}>
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-700">Confirm Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="Confirm your password"
+                            className="bg-white/50 border-pink-200 focus-visible:ring-pink-400"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+
+                <motion.div variants={itemVariants}>
+                  <Button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 hover:from-pink-600 hover:via-purple-600 hover:to-blue-600 text-white font-medium py-3"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Creating Account..." : "Sign Up"}
+                  </Button>
+                </motion.div>
+
+                <motion.div variants={itemVariants} className="text-center text-gray-600">
+                  Already have an account?{" "}
+                  <Link to="/login" className="text-pink-600 hover:text-pink-700 font-medium">
+                    Sign In
+                  </Link>
+                </motion.div>
+              </form>
+            </Form>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );
