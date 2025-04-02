@@ -21,6 +21,57 @@ const FloralSparkle = () => {
   );
 };
 
+// Animated Background Flowers Component
+const AnimatedFloralBackground = () => {
+  const flowerColors = [
+    "text-floral-pink/40", 
+    "text-floral-lavender/40", 
+    "text-floral-mint/40", 
+    "text-floral-lilac/40",
+    "text-floral-skyblue/40"
+  ];
+  
+  // Generate random positions for flowers
+  const flowers = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    size: 15 + Math.random() * 30,
+    x: `${Math.random() * 100}%`,
+    y: `${Math.random() * 100}%`,
+    color: flowerColors[Math.floor(Math.random() * flowerColors.length)],
+    delay: Math.random() * 5,
+    duration: 15 + Math.random() * 20
+  }));
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      {flowers.map((flower) => (
+        <motion.div
+          key={flower.id}
+          className="absolute"
+          style={{ 
+            left: flower.x, 
+            top: flower.y,
+          }}
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ 
+            opacity: [0.3, 0.6, 0.3],
+            scale: [0.8, 1.2, 0.8],
+            y: [`${parseFloat(flower.y)}%`, `${parseFloat(flower.y) + 5}%`, `${parseFloat(flower.y)}%`]
+          }}
+          transition={{ 
+            duration: flower.duration, 
+            repeat: Infinity,
+            delay: flower.delay,
+            ease: "easeInOut"
+          }}
+        >
+          <Flower className={flower.color} size={flower.size} />
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
 const Home = () => {
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, 300]);
@@ -79,6 +130,9 @@ const Home = () => {
 
   return (
     <div className="min-h-screen floral-background">
+      {/* Add the animated floral background */}
+      <AnimatedFloralBackground />
+      
       {/* Hero Section */}
       <div className="relative h-screen flex flex-col">
         <Navigation />
