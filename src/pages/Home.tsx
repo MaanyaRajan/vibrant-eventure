@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -85,45 +84,8 @@ const Home = () => {
         <Navigation />
         
         <div className="relative flex-grow flex flex-col items-center justify-center overflow-hidden">
-          {/* Decorative flower elements */}
+          {/* Decorative flower elements - Removed floating flowers in the background */}
           <div className="absolute inset-0 floral-pattern opacity-30"></div>
-          
-          {/* Floating flowers in the background */}
-          <div className="absolute inset-0 overflow-hidden">
-            {[...Array(12)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute"
-                initial={{ 
-                  x: `${Math.random() * 100}%`, 
-                  y: `${Math.random() * 100}%`,
-                  opacity: 0.3 + Math.random() * 0.4
-                }}
-                animate={{ 
-                  y: [
-                    `${Math.random() * 100}%`, 
-                    `${Math.random() * 100 - 10}%`, 
-                    `${Math.random() * 100}%`
-                  ],
-                }}
-                transition={{ 
-                  duration: 10 + Math.random() * 20, 
-                  repeat: Infinity,
-                  repeatType: "mirror"
-                }}
-              >
-                <Flower 
-                  size={30 + Math.random() * 50} 
-                  className={`animate-flower-spin ${
-                    i % 4 === 0 ? "text-floral-pink" : 
-                    i % 4 === 1 ? "text-floral-lilac" : 
-                    i % 4 === 2 ? "text-floral-mint" : 
-                    "text-floral-lavender"
-                  }`} 
-                />
-              </motion.div>
-            ))}
-          </div>
           
           <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
             <motion.h1 
